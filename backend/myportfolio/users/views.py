@@ -1,4 +1,10 @@
-from django.http import HttpResponse
+from rest_framework import generics
+from django.contrib.auth.models import User
+from .serializers import UserSerializer
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-def user_test(request):
-    return HttpResponse("Users working")
+
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
